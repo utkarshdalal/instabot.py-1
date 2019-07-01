@@ -90,7 +90,7 @@ class Persistence(PersistenceBase):
         """ Gets random username that is older than follow_time and has zero unfollow_count """
         now_time = datetime.now()
         cut_off_time = now_time - timedelta(seconds=self.bot.follow_time)
-        return self._session.query(Follower) \
+        return self._session.query(Follower).filter(Follower.unfollow_count == 0) \
             .filter(Follower.last_followed < cut_off_time) \
             .order_by(func.random()).first()
 
